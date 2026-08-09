@@ -26,8 +26,9 @@ export function initAuth(onUserChanged: (user: User | null) => void) {
       try {
         const cred = await signInAnonymously(auth);
         onUserChanged(cred.user);
-      } catch (err) {
-        console.error('Anonymous auth failed:', err);
+      } catch (err: any) {
+        // Handle case where Anonymous Auth is disabled in Firebase Console (auth/admin-restricted-operation)
+        console.warn('Firebase Anonymous Auth is restricted or disabled. Falling back to local device storage mode:', err?.message || err);
         onUserChanged(null);
       }
     } else {

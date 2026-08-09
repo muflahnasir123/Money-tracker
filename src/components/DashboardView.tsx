@@ -188,13 +188,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           </div>
 
           {/* Velocity Note */}
-          <div className="flex items-center justify-between text-xs text-zinc-400 pt-1">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs text-zinc-400 pt-1 gap-1">
             <span className="flex items-center gap-1.5 text-zinc-400">
-              <Zap className="w-3.5 h-3.5 text-amber-400" />
+              <Zap className="w-3.5 h-3.5 text-amber-400 shrink-0" />
               Daily velocity cap:
             </span>
             <span className="font-mono font-bold text-zinc-200">
-              {formatCurrency(dailyVelocity, currencySymbol)} / day ({daysInfo.remaining}d left)
+              {formatCurrency(dailyVelocity, currencySymbol)} <span className="text-zinc-400 font-normal">/ day ({daysInfo.remaining}d left)</span>
             </span>
           </div>
         </div>

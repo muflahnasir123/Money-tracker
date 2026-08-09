@@ -57,7 +57,7 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
     <div className="space-y-6 pb-20">
       
       {/* Title */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h2 className="text-xl font-bold text-white tracking-tight">Budget Limits & Guards</h2>
           <p className="text-xs text-zinc-400">Set spending caps & track daily limits</p>
@@ -65,7 +65,7 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
 
         <button
           onClick={onOpenEditTotalBudget}
-          className="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-lg shadow-blue-900/30 transition active:scale-95"
+          className="self-start sm:self-auto px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-lg shadow-blue-900/30 transition active:scale-95 shrink-0"
         >
           <Sliders className="w-4 h-4" />
           <span>Edit Overall Limit</span>
@@ -73,12 +73,12 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
       </div>
 
       {/* 1. Overall Monthly Budget Card */}
-      <div className="bg-zinc-900 border border-zinc-800 rounded-[32px] p-6 shadow-2xl text-zinc-100 space-y-4">
-        <div className="flex items-center justify-between">
-          <span className="text-xs font-bold text-zinc-400 uppercase tracking-widest">
+      <div className="bg-zinc-900 border border-zinc-800 rounded-[28px] sm:rounded-[32px] p-4 sm:p-6 shadow-2xl text-zinc-100 space-y-4">
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-[10px] sm:text-xs font-bold text-zinc-400 uppercase tracking-widest truncate">
             Monthly Target Cap ({selectedMonth})
           </span>
-          <span className={`text-xs font-mono font-bold px-2.5 py-1 rounded-full border ${
+          <span className={`text-xs font-mono font-bold px-2.5 py-0.5 sm:py-1 rounded-full border shrink-0 ${
             totalPercent >= 100
               ? 'bg-rose-500/20 text-rose-300 border-rose-500/40'
               : totalPercent >= 80
@@ -89,16 +89,16 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
           </span>
         </div>
 
-        <div className="flex items-baseline justify-between">
-          <div>
-            <span className="text-3xl font-mono font-bold text-white">
+        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 bg-zinc-950/60 border border-zinc-800/80 p-3 rounded-2xl">
+          <div className="min-w-0">
+            <span className="text-xl sm:text-3xl font-mono font-bold text-white break-words">
               {formatCurrency(totalSpent, currencySymbol)}
             </span>
-            <span className="text-sm font-mono text-zinc-400"> / {formatCurrency(totalMonthlyBudget, currencySymbol)}</span>
+            <span className="text-xs sm:text-sm font-mono text-zinc-400"> / {formatCurrency(totalMonthlyBudget, currencySymbol)}</span>
           </div>
-          <div className="text-right">
-            <p className="text-xs text-zinc-400">Remaining</p>
-            <p className={`text-base font-mono font-bold ${totalRemaining > 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+          <div className="sm:text-right shrink-0 pt-1 sm:pt-0 border-t sm:border-0 border-zinc-800/60">
+            <p className="text-[10px] sm:text-xs text-zinc-400">Remaining</p>
+            <p className={`text-sm sm:text-base font-mono font-bold ${totalRemaining > 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
               {formatCurrency(totalRemaining, currencySymbol)}
             </p>
           </div>
@@ -119,13 +119,13 @@ export const BudgetsView: React.FC<BudgetsViewProps> = ({
         </div>
 
         {/* Daily Velocity Tracker */}
-        <div className="bg-zinc-950/70 border border-zinc-800 rounded-2xl p-3.5 flex items-center justify-between text-xs">
+        <div className="bg-zinc-950/80 border border-zinc-800 rounded-2xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 text-xs">
           <div className="flex items-center gap-2">
-            <Zap className="w-4 h-4 text-amber-400" />
+            <Zap className="w-4 h-4 text-amber-400 shrink-0" />
             <span className="text-zinc-300 font-medium">Daily Velocity Cap:</span>
           </div>
-          <span className="font-mono font-bold text-emerald-400">
-            {formatCurrency(dailyLimit, currencySymbol)} / day ({daysInfo.remaining}d left)
+          <span className="font-mono font-bold text-emerald-400 text-xs sm:text-sm">
+            {formatCurrency(dailyLimit, currencySymbol)} <span className="text-zinc-400 font-normal">/ day ({daysInfo.remaining}d left)</span>
           </span>
         </div>
       </div>

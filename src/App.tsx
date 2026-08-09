@@ -232,10 +232,12 @@ export default function App() {
           currencySymbol={settings.currencySymbol}
           onCurrencyChange={(code, symbol) => setSettings(prev => ({ ...prev, currencyCode: code, currencySymbol: symbol }))}
           alerts={budgetAlerts}
-          onResetData={handleResetAllData}
+          onResetData={handleLoadDemoData}
+          onClearData={handleClearAllData}
           isMobileFrame={isMobileFrame}
           onToggleMobileFrame={() => setIsMobileFrame(!isMobileFrame)}
           onOpenAlertsModal={() => setIsAlertsModalOpen(true)}
+          isFirebaseConnected={!!currentUser}
         />
 
         {/* Main View Area */}
@@ -367,33 +369,33 @@ export default function App() {
 
       {/* Overall Budget Limit Modal */}
       {isTotalBudgetModalOpen && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div className="bg-zinc-900 border border-zinc-800 rounded-[32px] p-6 max-w-sm w-full text-zinc-100 shadow-2xl space-y-4">
-            <h3 className="text-lg font-bold">Set Monthly Overall Budget</h3>
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-[28px] p-4 sm:p-5 max-w-sm w-full text-zinc-100 shadow-2xl space-y-3.5 max-h-[85vh] overflow-y-auto">
+            <h3 className="text-base font-bold text-white">Set Monthly Overall Budget</h3>
             <p className="text-xs text-zinc-400">
               Set your target expense limit for the whole month. FinTrack will alert you at 80% and 100%.
             </p>
 
             <div>
-              <label className="text-xs font-semibold text-zinc-400 uppercase">Monthly Target ({settings.currencySymbol})</label>
+              <label className="text-[10px] font-bold text-zinc-400 uppercase">Monthly Target ({settings.currencySymbol})</label>
               <input
                 type="number"
                 value={totalBudgetInput}
                 onChange={(e) => setTotalBudgetInput(e.target.value)}
-                className="w-full mt-1 bg-zinc-950 border border-zinc-800 rounded-2xl px-3.5 py-2.5 font-mono text-lg font-bold text-white focus:outline-none focus:border-blue-500"
+                className="w-full mt-1 bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 font-mono text-base font-bold text-white focus:outline-none focus:border-blue-500"
               />
             </div>
 
-            <div className="flex justify-end gap-2 pt-2">
+            <div className="flex justify-end gap-2 pt-1 border-t border-zinc-800">
               <button
                 onClick={() => setIsTotalBudgetModalOpen(false)}
-                className="px-4 py-2 rounded-xl text-xs font-semibold text-zinc-400 hover:text-white"
+                className="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-zinc-400 hover:text-white"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSaveTotalBudget}
-                className="px-5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-900/30"
+                className="px-4 py-1.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-900/30"
               >
                 Save Limit
               </button>
@@ -404,31 +406,31 @@ export default function App() {
 
       {/* Category Budget Modal */}
       {editingCategory && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div className="bg-zinc-900 border border-zinc-800 rounded-[32px] p-6 max-w-sm w-full text-zinc-100 shadow-2xl space-y-4">
-            <h3 className="text-lg font-bold">Category Limit: {editingCategory.name}</h3>
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-[28px] p-4 sm:p-5 max-w-sm w-full text-zinc-100 shadow-2xl space-y-3.5 max-h-[85vh] overflow-y-auto">
+            <h3 className="text-base font-bold text-white">Category Limit: {editingCategory.name}</h3>
 
             <div>
-              <label className="text-xs font-semibold text-zinc-400 uppercase">Budget Cap ({settings.currencySymbol})</label>
+              <label className="text-[10px] font-bold text-zinc-400 uppercase">Budget Cap ({settings.currencySymbol})</label>
               <input
                 type="number"
                 value={categoryLimitInput}
                 onChange={(e) => setCategoryLimitInput(e.target.value)}
                 placeholder="0.00"
-                className="w-full mt-1 bg-zinc-950 border border-zinc-800 rounded-2xl px-3.5 py-2.5 font-mono text-lg font-bold text-white focus:outline-none focus:border-blue-500"
+                className="w-full mt-1 bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 font-mono text-base font-bold text-white focus:outline-none focus:border-blue-500"
               />
             </div>
 
-            <div className="flex justify-end gap-2 pt-2">
+            <div className="flex justify-end gap-2 pt-1 border-t border-zinc-800">
               <button
                 onClick={() => setEditingCategory(null)}
-                className="px-4 py-2 rounded-xl text-xs font-semibold text-zinc-400 hover:text-white"
+                className="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-zinc-400 hover:text-white"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSaveCategoryBudget}
-                className="px-5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-900/30"
+                className="px-4 py-1.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-900/30"
               >
                 Save Category
               </button>
@@ -439,33 +441,33 @@ export default function App() {
 
       {/* Alerts Modal */}
       {isAlertsModalOpen && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div className="bg-zinc-900 border border-zinc-800 rounded-[32px] p-6 max-w-md w-full text-zinc-100 shadow-2xl space-y-4">
-            <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
-              <h3 className="text-lg font-bold flex items-center gap-2">
-                <ShieldAlert className="w-5 h-5 text-rose-400" />
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-[28px] p-4 sm:p-5 max-w-md w-full text-zinc-100 shadow-2xl space-y-3.5 max-h-[85vh] flex flex-col">
+            <div className="flex items-center justify-between border-b border-zinc-800 pb-2.5 shrink-0">
+              <h3 className="text-base font-bold flex items-center gap-2 text-white">
+                <ShieldAlert className="w-4 h-4 text-rose-400" />
                 <span>Active Budget Alerts ({budgetAlerts.length})</span>
               </h3>
-              <button onClick={() => setIsAlertsModalOpen(false)} className="text-zinc-400 hover:text-white">
-                <X className="w-5 h-5" />
+              <button onClick={() => setIsAlertsModalOpen(false)} className="text-zinc-400 hover:text-white p-1">
+                <X className="w-4 h-4" />
               </button>
             </div>
 
             {budgetAlerts.length === 0 ? (
               <p className="text-xs text-zinc-400 py-4 text-center">No budget warnings or breaches for this month!</p>
             ) : (
-              <div className="space-y-2.5 max-h-72 overflow-y-auto pr-1">
+              <div className="space-y-2 flex-1 overflow-y-auto pr-1">
                 {budgetAlerts.map(a => (
                   <div
                     key={a.id}
-                    className={`p-3.5 rounded-2xl border text-xs ${
+                    className={`p-3 rounded-xl border text-xs ${
                       a.level === 'danger'
                         ? 'bg-rose-500/10 border-rose-500/20 text-rose-200'
                         : 'bg-amber-500/10 border-amber-500/20 text-amber-200'
                     }`}
                   >
                     <p className="font-bold text-white">{a.message}</p>
-                    <p className="text-[11px] opacity-80 mt-1">
+                    <p className="text-[11px] opacity-80 mt-0.5">
                       Spent {formatCurrency(a.spent, settings.currencySymbol)} / {formatCurrency(a.limit, settings.currencySymbol)} ({a.percentage}%)
                     </p>
                   </div>
@@ -473,10 +475,10 @@ export default function App() {
               </div>
             )}
 
-            <div className="pt-2 text-right">
+            <div className="pt-2 text-right border-t border-zinc-800 shrink-0">
               <button
                 onClick={() => setIsAlertsModalOpen(false)}
-                className="px-5 py-2 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl text-xs font-bold"
+                className="px-4 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl text-xs font-bold"
               >
                 Close
               </button>

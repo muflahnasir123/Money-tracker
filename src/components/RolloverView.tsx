@@ -176,7 +176,7 @@ export const RolloverView: React.FC<RolloverViewProps> = ({
                   </span>
                 </div>
 
-                <div className="grid grid-cols-3 gap-2 mt-3 pt-3 border-t border-zinc-800 text-[11px] text-zinc-400 font-mono">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-3 pt-3 border-t border-zinc-800 text-[11px] text-zinc-400 font-mono">
                   <div>
                     <span className="block text-[10px] text-zinc-500 font-sans">Opening Rollover</span>
                     <strong className="text-zinc-200">{formatCurrency(sum.openingBalance, currencySymbol)}</strong>
@@ -185,7 +185,7 @@ export const RolloverView: React.FC<RolloverViewProps> = ({
                     <span className="block text-[10px] text-zinc-500 font-sans">Income / Expense</span>
                     <strong className="text-zinc-200">{formatCurrency(sum.totalIncome, currencySymbol)} / {formatCurrency(sum.totalExpenses, currencySymbol)}</strong>
                   </div>
-                  <div className="text-right">
+                  <div className="sm:text-right">
                     <span className="block text-[10px] text-zinc-500 font-sans">Ending Balance</span>
                     <strong className="text-emerald-400">{formatCurrency(sum.closingBalance, currencySymbol)}</strong>
                   </div>
@@ -245,20 +245,20 @@ export const RolloverView: React.FC<RolloverViewProps> = ({
                 </div>
 
                 {/* Deposit Progress Controls */}
-                <div className="flex items-center justify-between pt-1 text-[11px]">
+                <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-[11px]">
                   <span className="text-zinc-500">Target Date: {goal.targetDate}</span>
                   <div className="flex items-center gap-2 font-mono">
                     <button
                       onClick={() => onUpdateGoalProgress(goal.id, goal.currentAmount + 100)}
                       className="px-2 py-0.5 bg-zinc-800 hover:bg-blue-500/20 text-blue-300 rounded-lg font-bold border border-zinc-700 transition"
                     >
-                      +$100
+                      +{currencySymbol}100
                     </button>
                     <button
                       onClick={() => onUpdateGoalProgress(goal.id, goal.currentAmount + 500)}
                       className="px-2 py-0.5 bg-zinc-800 hover:bg-blue-500/20 text-blue-300 rounded-lg font-bold border border-zinc-700 transition"
                     >
-                      +$500
+                      +{currencySymbol}500
                     </button>
                   </div>
                 </div>
@@ -270,66 +270,66 @@ export const RolloverView: React.FC<RolloverViewProps> = ({
 
       {/* Goal Modal */}
       {showGoalModal && (
-        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 max-w-sm w-full text-slate-100 shadow-2xl space-y-4">
-            <h3 className="text-lg font-bold">Create New Savings Goal</h3>
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-[28px] p-4 sm:p-5 max-w-sm w-full text-zinc-100 shadow-2xl space-y-3.5 max-h-[85vh] overflow-y-auto">
+            <h3 className="text-base font-bold text-white">Create New Savings Goal</h3>
 
             <form onSubmit={handleCreateGoal} className="space-y-3">
               <div>
-                <label className="text-xs font-semibold text-slate-400">Goal Name</label>
+                <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Goal Name</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. New Car, House Downpayment"
                   value={goalTitle}
                   onChange={(e) => setGoalTitle(e.target.value)}
-                  className="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full mt-1 bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-slate-400">Target Amount ({currencySymbol})</label>
+                <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Target Amount ({currencySymbol})</label>
                 <input
                   type="number"
                   required
                   placeholder="3000"
                   value={goalTarget}
                   onChange={(e) => setGoalTarget(e.target.value)}
-                  className="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full mt-1 bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-slate-400">Already Saved ({currencySymbol})</label>
+                <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Already Saved ({currencySymbol})</label>
                 <input
                   type="number"
                   value={goalCurrent}
                   onChange={(e) => setGoalCurrent(e.target.value)}
-                  className="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full mt-1 bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-slate-400">Target Date</label>
+                <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Target Date</label>
                 <input
                   type="date"
                   value={goalDate}
                   onChange={(e) => setGoalDate(e.target.value)}
-                  className="w-full mt-1 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full mt-1 bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500"
                 />
               </div>
 
-              <div className="flex items-center justify-end gap-2 pt-2">
+              <div className="flex items-center justify-end gap-2 pt-2 border-t border-zinc-800">
                 <button
                   type="button"
                   onClick={() => setShowGoalModal(false)}
-                  className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white"
+                  className="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-zinc-400 hover:text-white"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-xl text-xs font-extrabold bg-emerald-500 text-slate-950 hover:bg-emerald-400"
+                  className="px-4 py-1.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-900/30"
                 >
                   Create Goal
                 </button>

@@ -2,10 +2,10 @@ import { Transaction, Category, SavingsGoal } from '../types';
 import { SAMPLE_TRANSACTIONS, SAMPLE_GOALS, INITIAL_BASE_SAVINGS, INITIAL_TOTAL_BUDGET } from '../data/sampleData';
 import { DEFAULT_CATEGORIES } from '../data/categories';
 
-const TRANSACTIONS_KEY = 'fintrack_transactions_v2';
-const CATEGORIES_KEY = 'fintrack_categories_v2';
-const GOALS_KEY = 'fintrack_goals_v2';
-const SETTINGS_KEY = 'fintrack_settings_v2';
+const TRANSACTIONS_KEY = 'fintrack_transactions_v3';
+const CATEGORIES_KEY = 'fintrack_categories_v3';
+const GOALS_KEY = 'fintrack_goals_v3';
+const SETTINGS_KEY = 'fintrack_settings_v3';
 
 export interface AppSettings {
   currencyCode: string;
@@ -19,8 +19,8 @@ export interface AppSettings {
 export const DEFAULT_SETTINGS: AppSettings = {
   currencyCode: 'PKR',
   currencySymbol: 'Rs',
-  totalMonthlyBudget: 150000,
-  initialBaseSavings: 85000,
+  totalMonthlyBudget: 100000,
+  initialBaseSavings: 0,
   autoSwitchMonth: true,
   theme: 'dark'
 };
