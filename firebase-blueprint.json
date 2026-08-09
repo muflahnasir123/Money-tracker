@@ -1,0 +1,108 @@
+{
+  "entities": {
+    "users": {
+      "title": "User Profile",
+      "description": "User account document",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["uid"]
+    },
+    "transactions": {
+      "title": "Transactions",
+      "description": "User income and expense transactions",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "type": { "type": "string", "enum": ["income", "expense"] },
+        "amount": { "type": "number" },
+        "category": { "type": "string" },
+        "description": { "type": "string" },
+        "date": { "type": "string" },
+        "paymentMethod": { "type": "string" },
+        "notes": { "type": "string" },
+        "isRecurring": { "type": "boolean" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "type", "amount", "category", "description", "date", "paymentMethod"]
+    },
+    "categories": {
+      "title": "Categories",
+      "description": "User customized categories",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "type": "string", "enum": ["income", "expense"] },
+        "iconName": { "type": "string" },
+        "color": { "type": "string" },
+        "budgetLimit": { "type": "number" }
+      },
+      "required": ["id", "userId", "name", "type", "iconName", "color"]
+    },
+    "goals": {
+      "title": "Savings Goals",
+      "description": "User savings goals",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "targetAmount": { "type": "number" },
+        "currentAmount": { "type": "number" },
+        "targetDate": { "type": "string" },
+        "categoryColor": { "type": "string" }
+      },
+      "required": ["id", "userId", "title", "targetAmount", "currentAmount", "targetDate"]
+    },
+    "userSettings": {
+      "title": "User Settings",
+      "description": "User settings such as currency and overall budget",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "totalMonthlyBudget": { "type": "number" },
+        "initialBaseSavings": { "type": "number" },
+        "currencyCode": { "type": "string" },
+        "currencySymbol": { "type": "string" }
+      },
+      "required": ["userId", "totalMonthlyBudget", "initialBaseSavings", "currencyCode", "currencySymbol"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "entity": "users",
+      "schema": {
+        "$ref": "#/entities/users"
+      }
+    },
+    "/users/{userId}/transactions/{transactionId}": {
+      "entity": "transactions",
+      "schema": {
+        "$ref": "#/entities/transactions"
+      }
+    },
+    "/users/{userId}/categories/{categoryId}": {
+      "entity": "categories",
+      "schema": {
+        "$ref": "#/entities/categories"
+      }
+    },
+    "/users/{userId}/goals/{goalId}": {
+      "entity": "goals",
+      "schema": {
+        "$ref": "#/entities/goals"
+      }
+    },
+    "/users/{userId}/settings/config": {
+      "entity": "userSettings",
+      "schema": {
+        "$ref": "#/entities/userSettings"
+      }
+    }
+  }
+}

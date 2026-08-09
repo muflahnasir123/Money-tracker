@@ -1,0 +1,6 @@
+{
+  "name": "Income & Expense Finance Tracker",
+  "description": "Android-style personal finance manager with automatic month switching, rollover savings calculations, category budget alerts, and data visualization.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
